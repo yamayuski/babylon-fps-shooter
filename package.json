@@ -1,0 +1,78 @@
+{
+  "name": "babylon-fps-shooter",
+  "description": "FPS Shooter sample on Babylon.js",
+  "author": {
+    "name": "Masaru Yamagishi",
+    "email": "m-yamagishi@infiniteloop.co.jp",
+    "url": "https://cafe-capy.net"
+  },
+  "bugs": {
+    "url": "https://github.com/il-m-yamagishi/babylon-fps-shooter/issues"
+  },
+  "engines": {
+    "node": ">=14.0"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "homepage": "https://il-m-yamagishi.github.io/babylon-fps-shooter",
+  "keywords": [
+    "Babylon.js",
+    "FPS",
+    "Game",
+    "Shooter",
+    "Game Sample",
+    "WebGL"
+  ],
+  "license": "Apache License 2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/il-m-yamagishi/babylon-fps-shooter.git"
+  },
+  "private": true,
+  "version": "0.0.0-development",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "exit 0",
+    "serve": "vite preview",
+    "semantic-release": "semantic-release"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "husky": "^6.0.0",
+    "semantic-release": "^17.4.4",
+    "typescript": "~4.2.4",
+    "vite": "^2.3.7"
+  },
+  "dependencies": {
+    "@babylonjs/core": "^4.2.0",
+    "@babylonjs/loaders": "^4.2.0",
+    "pepjs": "^0.5.3"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ],
+    "branches": [
+      "master"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  }
+}
