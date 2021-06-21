@@ -36,13 +36,15 @@
     "build": "tsc && vite build",
     "test": "exit 0",
     "serve": "vite preview",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "semantic-release:gh-pages": "gh-pages -d dist -u \"Masaru Yamagishi <m-yamagishi@infiniteloop.co.jp>\" -m \"ci(gh-pages): update ghpages [skip ci]\""
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
+    "gh-pages": "^3.2.2",
     "husky": "^6.0.0",
     "semantic-release": "^17.4.4",
     "typescript": "~4.2.4",
