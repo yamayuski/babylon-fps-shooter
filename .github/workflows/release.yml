@@ -26,4 +26,8 @@ jobs:
           # NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn run semantic-release
       - name: Publish GitHub Pages
-        run: yarn semantic-release:gh-pages
+        run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/il-m-yamagishi/babylon-fps-shooter.git
+          yarn run semantic-release:gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

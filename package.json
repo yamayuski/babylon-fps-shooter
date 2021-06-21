@@ -37,7 +37,7 @@
     "test": "exit 0",
     "serve": "vite preview",
     "semantic-release": "semantic-release",
-    "semantic-release:gh-pages": "gh-pages -d dist -u \"Masaru Yamagishi <m-yamagishi@infiniteloop.co.jp>\" -m \"ci(gh-pages): update ghpages [skip ci]\""
+    "semantic-release:gh-pages": "gh-pages -d dist -u \"github-actions-bot <support+actions@github.com>\" -m \"ci(gh-pages): update gh-pages [skip ci]\""
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
