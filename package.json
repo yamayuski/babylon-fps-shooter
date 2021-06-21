@@ -33,7 +33,7 @@
   "version": "0.0.0-development",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build --base=/babylon-fps-shooter/",
     "test": "exit 0",
     "serve": "vite preview",
     "semantic-release": "semantic-release",
