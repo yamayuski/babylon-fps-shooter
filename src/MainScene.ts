@@ -134,7 +134,7 @@ class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
 
     public detachControl(): void;
 
-    public detachControl(ignored?: any): void {
+    public detachControl(_?: any): void {
         if (this._onKeyboardObservable) {
             this.camera.getScene().onActiveCameraChanged.remove(this._onKeyboardObservable)
             this._onKeyboardObservable = null
