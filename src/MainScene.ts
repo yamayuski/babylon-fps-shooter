@@ -29,6 +29,8 @@ import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent'
 import '@babylonjs/core/Loading/Plugins/babylonFileLoader'
 import '@babylonjs/core/Rendering/depthRendererSceneComponent'
 import '@babylonjs/loaders/glTF'
+import { Ray } from '@babylonjs/core/Culling/ray'
+import { RayHelper } from '@babylonjs/core'
 
 /**
  * Main in-game scene
@@ -83,6 +85,19 @@ export class MainScene
     private readonly onMouseClick = (): void => {
         if (!this.engine.isPointerLock) {
             this.engine.enterPointerlock()
+        }
+
+        const origin = this.camera.globalPosition.clone()
+        const forward = this.camera.getDirection(Vector3.Forward())
+        const ray = new Ray(origin, forward, 200)
+        const rayHelper = new RayHelper(ray)
+        rayHelper.show(this.scene)
+
+        const hit = this.scene.pickWithRay(ray, (mesh) => {
+            return mesh.name.match(/^Mob.+/) !== null
+        })
+        if (hit && hit.pickedMesh) {
+            hit.pickedMesh.dispose()
         }
     }
 
