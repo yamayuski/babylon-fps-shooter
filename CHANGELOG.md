@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/il-m-yamagishi/babylon-fps-shooter/compare/v1.0.0...v1.1.0) (2021-07-23)
+
+
+### Bug Fixes
+
+* Divide files ([230c1b8](https://github.com/il-m-yamagishi/babylon-fps-shooter/commit/230c1b8cb8ddc1139a48c296d4f0657d8f614835))
+
+
+### Features
+
+* Add ray picking ([c37870f](https://github.com/il-m-yamagishi/babylon-fps-shooter/commit/c37870f795e11e5df7f55bc11d3bde32df29ca29))
+
 # 1.0.0 (2021-06-21)
 
 
