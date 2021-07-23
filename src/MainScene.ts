@@ -10,8 +10,11 @@ import { Color3 } from '@babylonjs/core/Maths/math.color'
 import { Engine } from '@babylonjs/core/Engines/engine'
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera'
 import { Light } from '@babylonjs/core/Lights/light'
+import { Ray } from '@babylonjs/core/Culling/ray'
+// import { RayHelper } from '@babylonjs/core/Debug/rayHelper'
 import { Scene, SceneOptions } from '@babylonjs/core/scene'
 import { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator'
+import { Sound } from '@babylonjs/core/Audio/sound'
 import { SSAORenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/ssaoRenderingPipeline'
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial'
 import { Vector3 } from '@babylonjs/core/Maths/math.vector'
@@ -20,17 +23,20 @@ import { aroundWall } from './MainScene/Stage/aroundWall'
 import { ground } from './MainScene/Stage/ground'
 import { houses } from './MainScene/Stage/houses'
 import { mainLight } from './MainScene/Stage/mainLight'
+import { obstacle } from './MainScene/Stage/obstacle'
 import { skybox } from './MainScene/Stage/skybox'
 import { ShooterCameraDashInput } from './MainScene/ShooterCameraDashInput'
 
 // side-effects
+import '@babylonjs/core/Audio/audioSceneComponent'
 import '@babylonjs/core/Collisions/collisionCoordinator'
 import '@babylonjs/core/Lights/Shadows/shadowGeneratorSceneComponent'
 import '@babylonjs/core/Loading/Plugins/babylonFileLoader'
 import '@babylonjs/core/Rendering/depthRendererSceneComponent'
-import '@babylonjs/loaders/glTF'
-import { Ray } from '@babylonjs/core/Culling/ray'
-import { RayHelper } from '@babylonjs/core'
+
+// @see https://vitejs.dev/guide/assets.html#importing-asset-as-url
+// @see https://www.videvo.net/sound-effect/gun-shot-single-shot-in-pe1097906/246309/
+import gunfireSoundURL from './gunfire.mp3?url'
 
 /**
  * Main in-game scene
@@ -42,6 +48,7 @@ export class MainScene
     private readonly camera: Camera
     private readonly mainLight: Light
     private readonly shadowGenerator: ShadowGenerator
+    private gunfireSound?: Sound
 
     /**
      * Constructor
@@ -55,20 +62,23 @@ export class MainScene
     ) {
         this.engine = engine
         this.scene = new Scene(this.engine, sceneOptions)
-        this.scene.ambientColor = new Color3(0.5, 0.5, 0.5)
         this.camera = setUpCamera(this.engine.getRenderingCanvas()!, this.scene)
         this.mainLight = mainLight(this.scene)
         this.shadowGenerator = new CascadedShadowGenerator(2048, <any>this.mainLight)
         new SSAORenderingPipeline(`ssaoPipeline`, this.scene, 0.75, [this.camera])
-        skybox(this.scene)
-        ground(this.scene)
-        aroundWall(this.scene)
     }
 
     /**
      * Start main loop
      */
     public async start(): Promise<void> {
+        skybox(this.scene)
+        ground(this.scene)
+        aroundWall(this.scene)
+        obstacle(this.scene)
+        this.gunfireSound = await (new Promise((resolve: (value: Sound) => void) => {
+            const sound: Sound = new Sound(`Gunfire`, gunfireSoundURL, this.scene, () => resolve(sound));
+        }))
         await houses(this.scene, this.shadowGenerator)
         await loadMobs(this.scene, this.shadowGenerator)
         window.addEventListener('resize', this.onResize)
@@ -90,8 +100,10 @@ export class MainScene
         const origin = this.camera.globalPosition.clone()
         const forward = this.camera.getDirection(Vector3.Forward())
         const ray = new Ray(origin, forward, 200)
-        const rayHelper = new RayHelper(ray)
-        rayHelper.show(this.scene)
+        // const rayHelper = new RayHelper(ray)
+        // rayHelper.show(this.scene)
+
+        this.gunfireSound!.play()
 
         const hit = this.scene.pickWithRay(ray, (mesh) => {
             return mesh.name.match(/^Mob.+/) !== null
