@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/il-m-yamagishi/babylon-fps-shooter/compare/v1.1.0...v1.1.1) (2021-07-26)
+
+
+### Bug Fixes
+
+* Add eslint ([99565a2](https://github.com/il-m-yamagishi/babylon-fps-shooter/commit/99565a281eb75ed99c9b0202f10e94f2ce6fbf25))
+
 # [1.1.0](https://github.com/il-m-yamagishi/babylon-fps-shooter/compare/v1.0.0...v1.1.0) (2021-07-23)
 
 
