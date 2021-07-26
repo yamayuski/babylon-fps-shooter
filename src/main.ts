@@ -13,13 +13,7 @@ import './style.css'
 /**
  * Entrypoint
  */
-async function main(): Promise<void> {
-    const canvas = document.querySelector<HTMLCanvasElement>('#app')
-
-    if (!canvas) {
-        throw new Error(`canvas element not found`);
-    }
-
+async function main(canvas: HTMLCanvasElement): Promise<void> {
     const engine = new Engine(canvas, true, {
         alpha: false,
         antialias: true,
@@ -31,4 +25,5 @@ async function main(): Promise<void> {
     await mainScene.start()
 }
 
-main().catch(reason => console.error(reason))
+const canvas = document.getElementById('app') as HTMLCanvasElement;
+main(canvas).catch(reason => console.error(reason))

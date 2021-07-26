@@ -35,6 +35,7 @@
     "dev": "vite",
     "build": "tsc && vite build --base=/babylon-fps-shooter/",
     "test": "exit 0",
+    "lint": "eslint src",
     "serve": "vite preview",
     "semantic-release": "semantic-release",
     "semantic-release:gh-pages": "gh-pages -d dist -u \"github-actions-bot <support+actions@github.com>\" -m \"ci(gh-pages): update gh-pages [skip ci]\""
@@ -44,6 +45,9 @@
     "@commitlint/config-conventional": "^12.1.4",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.31.0",
     "gh-pages": "^3.2.2",
     "husky": "^6.0.0",
     "semantic-release": "^17.4.4",

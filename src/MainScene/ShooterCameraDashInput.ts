@@ -5,6 +5,9 @@
 
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera'
 import { ICameraInput } from '@babylonjs/core/Cameras/cameraInputsManager'
+import { KeyboardInfo } from '@babylonjs/core/Events/keyboardEvents'
+import { Nullable } from '@babylonjs/core/types'
+import { Observer } from '@babylonjs/core/Misc/observable'
 import { Tools } from '@babylonjs/core/Misc/tools'
 
 /**
@@ -12,19 +15,22 @@ import { Tools } from '@babylonjs/core/Misc/tools'
  * @todo divide by root 2 when moved diagonal
  */
 export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
-    public camera: FreeCamera
+    public readonly camera: FreeCamera
 
     /**
      * Dash speed
      */
-    public dashSpeed = 0.8
+    public readonly dashSpeed = 0.8
     /**
      * Walk speed(default)
      */
-    public walkSpeed = 0.5
+    public readonly walkSpeed = 0.5
 
-    private _onKeyboardObservable: any
+    private onKeyboardObservable: Nullable<Observer<KeyboardInfo>> = null
 
+    /**
+     * {@inheritdoc}
+     */
     public constructor(camera: FreeCamera) {
         this.camera = camera
 
@@ -35,10 +41,14 @@ export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
         camera.keysRight = ["D".charCodeAt(0)]
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public attachControl(noPreventDefault?: boolean): void {
+        // eslint-disable-next-line prefer-rest-params
         noPreventDefault = Tools.BackCompatCameraNoPreventDefault(arguments)
 
-        this._onKeyboardObservable = this.camera.getScene().onKeyboardObservable.add((info) => {
+        const observer = this.camera.getScene().onKeyboardObservable.add((info) => {
             if (info.type === 1 && info.event.code === 'ShiftLeft') {
                 this.camera.speed = this.dashSpeed
             } else {
@@ -48,21 +58,29 @@ export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
                 info.event.preventDefault()
             }
         })
+        this.onKeyboardObservable = observer
     }
 
-    public detachControl(): void;
-
-    public detachControl(_?: any): void {
-        if (this._onKeyboardObservable) {
-            this.camera.getScene().onKeyboardObservable.remove(this._onKeyboardObservable)
-            this._onKeyboardObservable = null
+    /**
+     * {@inheritdoc}
+     */
+    public detachControl(): void {
+        if (this.onKeyboardObservable) {
+            this.camera.getScene().onKeyboardObservable.remove(this.onKeyboardObservable)
+            this.onKeyboardObservable = null
         }
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public getClassName(): string {
         return 'ShooterCameraDashInput'
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public getSimpleName(): string {
         return 'dash'
     }

@@ -3,15 +3,15 @@
  * @license Apache-2.0
  */
 
+// import { RayHelper } from '@babylonjs/core/Debug/rayHelper'
 import { Camera } from '@babylonjs/core/Cameras/camera'
 import { CapsuleBuilder } from '@babylonjs/core/Meshes/Builders/capsuleBuilder'
 import { CascadedShadowGenerator } from '@babylonjs/core/Lights/Shadows/cascadedShadowGenerator'
 import { Color3 } from '@babylonjs/core/Maths/math.color'
+import { DirectionalLight } from '@babylonjs/core/Lights/directionalLight'
 import { Engine } from '@babylonjs/core/Engines/engine'
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera'
-import { Light } from '@babylonjs/core/Lights/light'
 import { Ray } from '@babylonjs/core/Culling/ray'
-// import { RayHelper } from '@babylonjs/core/Debug/rayHelper'
 import { Scene, SceneOptions } from '@babylonjs/core/scene'
 import { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator'
 import { Sound } from '@babylonjs/core/Audio/sound'
@@ -46,7 +46,7 @@ export class MainScene
     private readonly engine: Engine
     private readonly scene: Scene
     private readonly camera: Camera
-    private readonly mainLight: Light
+    private readonly mainLight: DirectionalLight
     private readonly shadowGenerator: ShadowGenerator
     private gunfireSound?: Sound
 
@@ -61,10 +61,16 @@ export class MainScene
         sceneOptions?: SceneOptions,
     ) {
         this.engine = engine
+
+        const canvas = this.engine.getRenderingCanvas()
+        if (!canvas) {
+            throw new Error('Unknown canvas element')
+        }
         this.scene = new Scene(this.engine, sceneOptions)
-        this.camera = setUpCamera(this.engine.getRenderingCanvas()!, this.scene)
+        this.scene.ambientColor = new Color3(0.9, 0.9, 0.9)
+        this.camera = setUpCamera(canvas, this.scene)
         this.mainLight = mainLight(this.scene)
-        this.shadowGenerator = new CascadedShadowGenerator(2048, <any>this.mainLight)
+        this.shadowGenerator = new CascadedShadowGenerator(2048, this.mainLight)
         new SSAORenderingPipeline(`ssaoPipeline`, this.scene, 0.75, [this.camera])
     }
 
@@ -103,7 +109,9 @@ export class MainScene
         // const rayHelper = new RayHelper(ray)
         // rayHelper.show(this.scene)
 
-        this.gunfireSound!.play()
+        if (this.gunfireSound){
+            this.gunfireSound.play()
+        }
 
         const hit = this.scene.pickWithRay(ray, (mesh) => {
             return mesh.name.match(/^Mob.+/) !== null
