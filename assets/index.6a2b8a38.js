@@ -1,4 +1,4 @@
-import{S as e,T as a,B as t,V as n,C as s,G as o,a as i,D as r,b as c,c as l,R as h,d,e as u,f as m,g as p,F as b,h as w,E as g}from"./vendor.8790ce14.js";
+import{S as e,T as a,B as t,V as n,C as s,G as o,a as i,D as r,b as c,c as l,R as h,d,e as m,f as u,g as p,F as b,h as w,E as g}from"./vendor.8790ce14.js";
 /**
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache-2.0
@@ -7,12 +7,12 @@ import{S as e,T as a,B as t,V as n,C as s,G as o,a as i,D as r,b as c,c as l,R a
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache-2.0
  */
-class M{constructor(e){this.dashSpeed=.8,this.walkSpeed=.5,this.camera=e,e.keysUp=["W".charCodeAt(0)],e.keysDown=["S".charCodeAt(0)],e.keysLeft=["A".charCodeAt(0)],e.keysRight=["D".charCodeAt(0)]}attachControl(e){e=l.BackCompatCameraNoPreventDefault(arguments),this._onKeyboardObservable=this.camera.getScene().onKeyboardObservable.add((a=>{1===a.type&&"ShiftLeft"===a.event.code?this.camera.speed=this.dashSpeed:this.camera.speed=this.walkSpeed,e||a.event.preventDefault()}))}detachControl(e){this._onKeyboardObservable&&(this.camera.getScene().onKeyboardObservable.remove(this._onKeyboardObservable),this._onKeyboardObservable=null)}getClassName(){return"ShooterCameraDashInput"}getSimpleName(){return"dash"}}
+class y{constructor(e){this.dashSpeed=.8,this.walkSpeed=.5,this.onKeyboardObservable=null,this.camera=e,e.keysUp=["W".charCodeAt(0)],e.keysDown=["S".charCodeAt(0)],e.keysLeft=["A".charCodeAt(0)],e.keysRight=["D".charCodeAt(0)]}attachControl(e){e=l.BackCompatCameraNoPreventDefault(arguments);const a=this.camera.getScene().onKeyboardObservable.add((a=>{1===a.type&&"ShiftLeft"===a.event.code?this.camera.speed=this.dashSpeed:this.camera.speed=this.walkSpeed,e||a.event.preventDefault()}));this.onKeyboardObservable=a}detachControl(){this.onKeyboardObservable&&(this.camera.getScene().onKeyboardObservable.remove(this.onKeyboardObservable),this.onKeyboardObservable=null)}getClassName(){return"ShooterCameraDashInput"}getSimpleName(){return"dash"}}
 /**
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache-2.0
  */
-class y{constructor(e,a){this.onMouseClick=()=>{this.engine.isPointerLock||this.engine.enterPointerlock();const e=this.camera.globalPosition.clone(),a=this.camera.getDirection(n.Forward()),t=new h(e,a,200);this.gunfireSound.play();const s=this.scene.pickWithRay(t,(e=>null!==e.name.match(/^Mob.+/)));s&&s.pickedMesh&&s.pickedMesh.dispose()},this.onResize=()=>{this.engine.resize()},this.engine=e,this.scene=new d(this.engine,a),this.camera=function(e,a){const t=new n(200*Math.random()-100,2,200*Math.random()-100),s=new b("MainCamera",t,a);return s.setTarget(n.Zero()),s.inputs.add(new M(s)),s.attachControl(e,!0),s.applyGravity=!0,s.ellipsoid=new n(1.2,1.2,1.2),s.checkCollisions=!0,s}(this.engine.getRenderingCanvas(),this.scene),this.mainLight=
+class M{constructor(e,a){this.onMouseClick=()=>{this.engine.isPointerLock||this.engine.enterPointerlock();const e=this.camera.globalPosition.clone(),a=this.camera.getDirection(n.Forward()),t=new h(e,a,200);this.gunfireSound&&this.gunfireSound.play();const s=this.scene.pickWithRay(t,(e=>null!==e.name.match(/^Mob.+/)));s&&s.pickedMesh&&s.pickedMesh.dispose()},this.onResize=()=>{this.engine.resize()},this.engine=e;const t=this.engine.getRenderingCanvas();if(!t)throw new Error("Unknown canvas element");this.scene=new d(this.engine,a),this.scene.ambientColor=new s(.9,.9,.9),this.camera=function(e,a){const t=new n(200*Math.random()-100,2,200*Math.random()-100),s=new b("MainCamera",t,a);return s.setTarget(n.Zero()),s.inputs.add(new y(s)),s.attachControl(e,!0),s.applyGravity=!0,s.ellipsoid=new n(1.2,1.2,1.2),s.checkCollisions=!0,s}(t,this.scene),this.mainLight=
 /**
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache-2.0
@@ -21,12 +21,12 @@ function(e){const a=new r("MainLight",new n(2,-5,2).normalize(),e);return a.inte
 /**
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache-2.0
- */(this.scene),this.shadowGenerator=new u(2048,this.mainLight),new m("ssaoPipeline",this.scene,.75,[this.camera])}async start(){!
+ */(this.scene),this.shadowGenerator=new m(2048,this.mainLight),new u("ssaoPipeline",this.scene,.75,[this.camera])}async start(){!
 /**
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache-2.0
  */
-function(n){const o=t.CreateBox("MainSkyBox",{size:4e3},n),i=new e("MainSkyBoxMaterial",n);i.backFaceCulling=!1,i.reflectionTexture=new c("https://playground.babylonjs.com/textures/skybox",n),i.reflectionTexture.coordinatesMode=a.SKYBOX_MODE,i.diffuseColor=s.Black(),i.specularColor=s.Black(),o.material=i}(this.scene),
+function(n){const s=t.CreateBox("MainSkyBox",{size:4e3},n),o=new e("MainSkyBoxMaterial",n);o.backFaceCulling=!1,o.disableLighting=!0,o.reflectionTexture=new c("https://playground.babylonjs.com/textures/skybox",n),o.reflectionTexture.coordinatesMode=a.SKYBOX_MODE,s.infiniteDistance=!0,s.material=o}(this.scene),
 /**
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache-2.0
@@ -40,4 +40,4 @@ function(t){const n=new e("ground",t);n.specularColor=s.Black();const i=new a("h
  * @author Masaru Yamagishi <yamagishi.iloop@gmail.com>
  * @license Apache 2.0
  */
-async function(){const e=document.querySelector("#app");if(!e)throw new Error("canvas element not found");const a=new g(e,!0,{alpha:!1,antialias:!0,audioEngine:!0,autoEnableWebVR:!1,depth:!0},!0),t=new y(a);await t.start()})().catch((e=>console.error(e)));
+async function(e){const a=new g(e,!0,{alpha:!1,antialias:!0,audioEngine:!0,autoEnableWebVR:!1,depth:!0},!0),t=new M(a);await t.start()})(document.getElementById("app")).catch((e=>console.error(e)));
