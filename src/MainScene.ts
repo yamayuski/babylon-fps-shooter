@@ -37,6 +37,7 @@ import '@babylonjs/core/Rendering/depthRendererSceneComponent'
 // @see https://vitejs.dev/guide/assets.html#importing-asset-as-url
 // @see https://www.videvo.net/sound-effect/gun-shot-single-shot-in-pe1097906/246309/
 import gunfireSoundURL from './gunfire.mp3?url'
+import { AdvancedDynamicTexture, Control, Line, Rectangle } from '@babylonjs/gui'
 
 /**
  * Main in-game scene
@@ -71,6 +72,7 @@ export class MainScene
         this.camera = setUpCamera(canvas, this.scene)
         this.mainLight = mainLight(this.scene)
         this.shadowGenerator = new CascadedShadowGenerator(2048, this.mainLight)
+        setUpCrossHair()
         new SSAORenderingPipeline(`ssaoPipeline`, this.scene, 0.75, [this.camera])
     }
 
@@ -146,6 +148,30 @@ function setUpCamera(canvas: HTMLCanvasElement, scene: Scene): Camera {
     camera.checkCollisions = true
 
     return camera
+}
+
+/**
+ * Creates center crosshair
+ */
+function setUpCrossHair(): AdvancedDynamicTexture
+{
+    const tex = AdvancedDynamicTexture.CreateFullscreenUI('FullscreenUI')
+
+    const xRect = new Rectangle('xRect')
+    xRect.width = '20px'
+    xRect.height = '2px'
+    xRect.color = 'White'
+    xRect.background = 'White'
+    tex.addControl(xRect)
+
+    const yRect = new Rectangle('yRect')
+    yRect.width = '2px'
+    yRect.height = '20px'
+    yRect.color = 'White'
+    yRect.background = 'White'
+    tex.addControl(yRect)
+
+    return tex
 }
 
 /**
