@@ -6,6 +6,7 @@
 import { DirectionalLight } from '@babylonjs/core/Lights/directionalLight'
 import { Scene } from '@babylonjs/core/scene'
 import { Vector3 } from '@babylonjs/core/Maths/math.vector'
+import { Color3 } from '@babylonjs/core/Maths/math.color'
 
 /**
  * Build main directional light
@@ -15,7 +16,8 @@ import { Vector3 } from '@babylonjs/core/Maths/math.vector'
  */
 export function mainLight(scene: Scene): DirectionalLight {
     const light = new DirectionalLight(`MainLight`, new Vector3(2, -5, 2).normalize(), scene)
-    light.intensity = 1.0
+    light.shadowEnabled = true
+    light.diffuse = new Color3(1.0, 0.95, 0.96)
 
     return light
 }

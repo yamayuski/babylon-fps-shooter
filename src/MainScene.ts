@@ -4,6 +4,7 @@
  */
 
 // import { RayHelper } from '@babylonjs/core/Debug/rayHelper'
+import { AdvancedDynamicTexture } from '@babylonjs/gui/2D/advancedDynamicTexture'
 import { Camera } from '@babylonjs/core/Cameras/camera'
 import { CapsuleBuilder } from '@babylonjs/core/Meshes/Builders/capsuleBuilder'
 import { CascadedShadowGenerator } from '@babylonjs/core/Lights/Shadows/cascadedShadowGenerator'
@@ -12,6 +13,7 @@ import { DirectionalLight } from '@babylonjs/core/Lights/directionalLight'
 import { Engine } from '@babylonjs/core/Engines/engine'
 import { FreeCamera } from '@babylonjs/core/Cameras/freeCamera'
 import { Ray } from '@babylonjs/core/Culling/ray'
+import { Rectangle } from '@babylonjs/gui/2D/controls/rectangle'
 import { Scene, SceneOptions } from '@babylonjs/core/scene'
 import { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator'
 import { Sound } from '@babylonjs/core/Audio/sound'
@@ -36,8 +38,7 @@ import '@babylonjs/core/Rendering/depthRendererSceneComponent'
 
 // @see https://vitejs.dev/guide/assets.html#importing-asset-as-url
 // @see https://www.videvo.net/sound-effect/gun-shot-single-shot-in-pe1097906/246309/
-import gunfireSoundURL from './gunfire.mp3?url'
-import { AdvancedDynamicTexture, Control, Line, Rectangle } from '@babylonjs/gui'
+import gunfireSoundURL from './assets/gunfire.mp3?url'
 
 /**
  * Main in-game scene
@@ -68,7 +69,6 @@ export class MainScene
             throw new Error('Unknown canvas element')
         }
         this.scene = new Scene(this.engine, sceneOptions)
-        this.scene.ambientColor = new Color3(0.9, 0.9, 0.9)
         this.camera = setUpCamera(canvas, this.scene)
         this.mainLight = mainLight(this.scene)
         this.shadowGenerator = new CascadedShadowGenerator(2048, this.mainLight)
