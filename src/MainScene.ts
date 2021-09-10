@@ -67,14 +67,9 @@ export class MainScene {
         this.scene = new Scene(this.engine, sceneOptions);
         this.camera = setUpCamera(canvas, this.scene);
         this.mainLight = mainLight(this.scene);
-        this.shadowGenerator = new CascadedShadowGenerator(
-            2048,
-            this.mainLight
-        );
+        this.shadowGenerator = new CascadedShadowGenerator(2048, this.mainLight);
         setUpCrossHair();
-        new SSAORenderingPipeline(`ssaoPipeline`, this.scene, 0.75, [
-            this.camera,
-        ]);
+        new SSAORenderingPipeline(`ssaoPipeline`, this.scene, 0.75, [this.camera]);
     }
 
     /**
@@ -85,16 +80,9 @@ export class MainScene {
         ground(this.scene);
         aroundWall(this.scene);
         obstacle(this.scene);
-        this.gunfireSound = await new Promise(
-            (resolve: (value: Sound) => void) => {
-                const sound: Sound = new Sound(
-                    `Gunfire`,
-                    gunfireSoundURL,
-                    this.scene,
-                    () => resolve(sound)
-                );
-            }
-        );
+        this.gunfireSound = await new Promise((resolve: (value: Sound) => void) => {
+            const sound: Sound = new Sound(`Gunfire`, gunfireSoundURL, this.scene, () => resolve(sound));
+        });
         await houses(this.scene, this.shadowGenerator);
         await loadMobs(this.scene, this.shadowGenerator);
         window.addEventListener("resize", this.onResize);
@@ -146,11 +134,7 @@ export class MainScene {
  * @param scene Target Scene
  */
 function setUpCamera(canvas: HTMLCanvasElement, scene: Scene): Camera {
-    const initialPotision = new Vector3(
-        Math.random() * 200 - 100,
-        2,
-        Math.random() * 200 - 100
-    );
+    const initialPotision = new Vector3(Math.random() * 200 - 100, 2, Math.random() * 200 - 100);
     const camera = new FreeCamera(`MainCamera`, initialPotision, scene);
     camera.setTarget(Vector3.Zero());
     camera.inputs.add(new ShooterCameraDashInput(camera));
@@ -194,10 +178,7 @@ function setUpCrossHair(): AdvancedDynamicTexture {
  * @param scene Target Scene
  * @param shadowGenerator Shadow Generator
  */
-async function loadMobs(
-    scene: Scene,
-    shadowGenerator: ShadowGenerator
-): Promise<void> {
+async function loadMobs(scene: Scene, shadowGenerator: ShadowGenerator): Promise<void> {
     const capsuleBase = CapsuleBuilder.CreateCapsule(
         `mobBase`,
         {
@@ -216,24 +197,14 @@ async function loadMobs(
     for (let index = 0; index < 100; index++) {
         const capsule = capsuleBase.clone(`Mob${index}`, null);
         capsule.material = material.clone(`MobMaterial${index}`);
-        (capsule.material as StandardMaterial).diffuseColor = new Color3(
-            Math.random(),
-            Math.random(),
-            Math.random()
-        );
+        (capsule.material as StandardMaterial).diffuseColor = new Color3(Math.random(), Math.random(), Math.random());
         shadowGenerator.addShadowCaster(capsule);
-        capsule.position = new Vector3(
-            Math.random() * 200 - 100,
-            2,
-            Math.random() * 200 - 100
-        );
+        capsule.position = new Vector3(Math.random() * 200 - 100, 2, Math.random() * 200 - 100);
         capsule.rotate(Vector3.Up(), Math.random() * Math.PI * 4);
         scene.onBeforeRenderObservable.add(() => {
             capsule.rotate(Vector3.Up(), Math.random() * 0.5 - 0.25);
             const delta = scene.getEngine().getDeltaTime() / 100;
-            capsule.moveWithCollisions(
-                capsule.forward.multiplyByFloats(delta, delta, delta)
-            );
+            capsule.moveWithCollisions(capsule.forward.multiplyByFloats(delta, delta, delta));
         });
     }
 
