@@ -1,86 +1,84 @@
 {
-    "name": "babylon-fps-shooter",
-    "description": "FPS Shooter sample on Babylon.js",
-    "author": {
-        "name": "Masaru Yamagishi",
-        "email": "m-yamagishi@infiniteloop.co.jp",
-        "url": "https://cafe-capy.net"
-    },
-    "bugs": {
-        "url": "https://github.com/il-m-yamagishi/babylon-fps-shooter/issues"
-    },
-    "engines": {
-        "node": ">=14.0"
-    },
-    "files": [
-        "dist/**/*"
+  "name": "babylon-fps-shooter",
+  "description": "FPS Shooter sample on Babylon.js",
+  "author": {
+    "name": "Masaru Yamagishi",
+    "email": "m-yamagishi@infiniteloop.co.jp",
+    "url": "https://cafe-capy.net"
+  },
+  "bugs": {
+    "url": "https://github.com/il-m-yamagishi/babylon-fps-shooter/issues"
+  },
+  "engines": {
+    "node": ">=14.0"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "homepage": "https://il-m-yamagishi.github.io/babylon-fps-shooter",
+  "keywords": [
+    "Babylon.js",
+    "FPS",
+    "Game",
+    "Shooter",
+    "Game Sample",
+    "WebGL"
+  ],
+  "license": "Apache License 2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/il-m-yamagishi/babylon-fps-shooter.git"
+  },
+  "private": true,
+  "version": "0.0.0-development",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build --base=/babylon-fps-shooter/",
+    "test": "exit 0",
+    "lint": "eslint src",
+    "serve": "vite preview",
+    "semantic-release": "semantic-release",
+    "semantic-release:gh-pages": "gh-pages -d dist -u \"github-actions-bot <support+actions@github.com>\" -m \"ci(gh-pages): update gh-pages [skip ci]\""
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.1.0",
+    "@commitlint/config-conventional": "^13.1.0",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "eslint": "^7.32.0",
+    "gh-pages": "^3.2.3",
+    "husky": "^7.0.2",
+    "semantic-release": "^17.4.7",
+    "typescript": "~4.2.4",
+    "vite": "^2.5.1"
+  },
+  "dependencies": {
+    "@babylonjs/core": "5.0.0-alpha.40",
+    "@babylonjs/gui": "5.0.0-alpha.40",
+    "pepjs": "^0.5.3"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/github",
+      "@semantic-release/git"
     ],
-    "homepage": "https://il-m-yamagishi.github.io/babylon-fps-shooter",
-    "keywords": [
-        "Babylon.js",
-        "FPS",
-        "Game",
-        "Shooter",
-        "Game Sample",
-        "WebGL"
-    ],
-    "license": "Apache License 2.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/il-m-yamagishi/babylon-fps-shooter.git"
-    },
-    "private": true,
-    "version": "0.0.0-development",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build --base=/babylon-fps-shooter/",
-        "test": "exit 0",
-        "lint": "eslint src",
-        "serve": "vite preview",
-        "semantic-release": "semantic-release",
-        "semantic-release:gh-pages": "gh-pages -d dist -u \"github-actions-bot <support+actions@github.com>\" -m \"ci(gh-pages): update gh-pages [skip ci]\""
-    },
-    "devDependencies": {
-        "@commitlint/cli": "^13.1.0",
-        "@commitlint/config-conventional": "^13.1.0",
-        "@semantic-release/changelog": "^5.0.1",
-        "@semantic-release/git": "^9.0.0",
-        "@typescript-eslint/eslint-plugin": "^4.29.3",
-        "@typescript-eslint/parser": "^4.29.3",
-        "eslint": "^7.32.0",
-        "gh-pages": "^3.2.3",
-        "husky": "^7.0.2",
-        "prettier": "^2.3.2",
-        "pretty-quick": "^3.1.1",
-        "semantic-release": "^17.4.7",
-        "typescript": "~4.2.4",
-        "vite": "^2.5.1"
-    },
-    "dependencies": {
-        "@babylonjs/core": "5.0.0-alpha.40",
-        "@babylonjs/gui": "5.0.0-alpha.40",
-        "pepjs": "^0.5.3"
-    },
-    "release": {
-        "plugins": [
-            "@semantic-release/commit-analyzer",
-            "@semantic-release/release-notes-generator",
-            "@semantic-release/changelog",
-            "@semantic-release/github",
-            "@semantic-release/git"
-        ],
-        "branches": [
-            "main"
-        ]
-    },
-    "commitlint": {
-        "extends": [
-            "@commitlint/config-conventional"
-        ]
-    },
-    "husky": {
-        "hooks": {
-            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-        }
+    "branches": [
+      "main"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
+  }
 }
