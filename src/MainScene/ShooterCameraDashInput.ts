@@ -9,6 +9,7 @@ import { KeyboardInfo } from '@babylonjs/core/Events/keyboardEvents'
 import { Nullable } from '@babylonjs/core/types'
 import { Observer } from '@babylonjs/core/Misc/observable'
 import { Tools } from '@babylonjs/core/Misc/tools'
+import { Vector3 } from '@babylonjs/core/Maths/math.vector'
 
 /**
  * Input with dash
@@ -47,12 +48,19 @@ export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
     public attachControl(noPreventDefault?: boolean): void {
         // eslint-disable-next-line prefer-rest-params
         noPreventDefault = Tools.BackCompatCameraNoPreventDefault(arguments)
+        this.camera.angularSensibility = 5000.0
+        this.camera.getScene().gravity = new Vector3(0, -0.1, 0)
 
         const observer = this.camera.getScene().onKeyboardObservable.add((info) => {
             if (info.type === 1 && info.event.code === 'ShiftLeft') {
                 this.camera.speed = this.dashSpeed
             } else {
                 this.camera.speed = this.walkSpeed
+            }
+            if (info.type === 1 && info.event.code === 'Space') {
+                if (this.camera.position.y <= 2.5) {
+                    this.camera.cameraDirection.y += 0.5
+                }
             }
             if (!noPreventDefault) {
                 info.event.preventDefault()
