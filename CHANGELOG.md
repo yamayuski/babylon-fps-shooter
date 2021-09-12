@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/il-m-yamagishi/babylon-fps-shooter/compare/v1.1.1...v1.2.0) (2021-09-12)
+
+
+### Features
+
+* **Input:** Add Jump with space ([6f5dfcb](https://github.com/il-m-yamagishi/babylon-fps-shooter/commit/6f5dfcb904474e6d0cf938bbe9a054f07aa69594))
+
 ## [1.1.1](https://github.com/il-m-yamagishi/babylon-fps-shooter/compare/v1.1.0...v1.1.1) (2021-07-26)
 
 
