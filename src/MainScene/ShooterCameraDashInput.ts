@@ -36,10 +36,10 @@ export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
         this.camera = camera
 
         // Use WASD to move instead of Arrow keys
-        camera.keysUp = ["W".charCodeAt(0)]
-        camera.keysDown = ["S".charCodeAt(0)]
-        camera.keysLeft = ["A".charCodeAt(0)]
-        camera.keysRight = ["D".charCodeAt(0)]
+        camera.keysUp = ['W'.charCodeAt(0)]
+        camera.keysDown = ['S'.charCodeAt(0)]
+        camera.keysLeft = ['A'.charCodeAt(0)]
+        camera.keysRight = ['D'.charCodeAt(0)]
     }
 
     /**

@@ -27,7 +27,7 @@ export function ground(scene: Scene): Mesh {
     groundBump.uScale = 120
     groundBump.vScale = 120
     material.bumpTexture = groundBump
-    const ground = GroundBuilder.CreateGround("MainGround", { width: 400, height: 400}, scene)
+    const ground = GroundBuilder.CreateGround('MainGround', { width: 400, height: 400}, scene)
     ground.material = material
     ground.checkCollisions = true
     ground.receiveShadows = true
