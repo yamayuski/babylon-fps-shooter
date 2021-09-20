@@ -96,9 +96,14 @@ export class MainScene {
     /**
      * Execute when mouse has clicked inside game
      */
-    private readonly onMouseClick = (): void => {
+    private readonly onMouseClick = (evt: MouseEvent): void => {
         if (!this.engine.isPointerLock) {
             this.engine.enterPointerlock();
+        }
+
+        // button: 0 equals primary
+        if (evt.button !== 0) {
+            return;
         }
 
         const origin = this.camera.globalPosition.clone();

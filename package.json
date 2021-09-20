@@ -59,8 +59,8 @@
     "vite": "^2.5.1"
   },
   "dependencies": {
-    "@babylonjs/core": "5.0.0-alpha.40",
-    "@babylonjs/gui": "5.0.0-alpha.40",
+    "@babylonjs/core": "5.0.0-alpha.45",
+    "@babylonjs/gui": "5.0.0-alpha.45",
     "pepjs": "^0.5.3"
   },
   "release": {
