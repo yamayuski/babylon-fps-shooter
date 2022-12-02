@@ -27,6 +27,10 @@ export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
      */
     public readonly walkSpeed = 0.5;
 
+    private isDash = false;
+    private wantToJump = false;
+    private isJumping = false;
+
     private onKeyboardObservable: Nullable<Observer<KeyboardInfo>> = null;
 
     /**
@@ -52,16 +56,9 @@ export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
         this.camera.getScene().gravity = new Vector3(0, -0.1, 0);
 
         const observer = this.camera.getScene().onKeyboardObservable.add((info) => {
-            if (info.type === 1 && info.event.code === 'ShiftLeft') {
-                this.camera.speed = this.dashSpeed;
-            } else {
-                this.camera.speed = this.walkSpeed;
-            }
-            if (info.type === 1 && info.event.code === 'Space') {
-                if (this.camera.position.y <= 2.5) {
-                    this.camera.cameraDirection.y += 0.5;
-                }
-            }
+            this.isDash = (info.type === 1 && info.event.code === 'ShiftLeft');
+            this.wantToJump = (info.type === 1 && info.event.code === 'Space');
+
             if (!noPreventDefault) {
                 info.event.preventDefault();
             }
@@ -76,6 +73,20 @@ export class ShooterCameraDashInput implements ICameraInput<FreeCamera> {
         if (this.onKeyboardObservable) {
             this.camera.getScene().onKeyboardObservable.remove(this.onKeyboardObservable);
             this.onKeyboardObservable = null;
+        }
+    }
+
+    /**
+     * called when requestAnimationFrame
+     */
+    public checkInputs = (): void => {
+        this.camera.speed = this.walkSpeed;
+        if (this.isDash) {
+            this.camera.speed = this.dashSpeed;
+        }
+        this.isJumping = this.camera.position.y >= 2.5;
+        if (this.wantToJump && !this.isJumping) {
+            this.camera.cameraDirection.y += 0.5;
         }
     }
 

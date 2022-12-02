@@ -28,6 +28,8 @@ import { mainLight } from './MainScene/Stage/mainLight';
 import { obstacle } from './MainScene/Stage/obstacle';
 import { skybox } from './MainScene/Stage/skybox';
 import { ShooterCameraDashInput } from './MainScene/ShooterCameraDashInput';
+import { SceneInterface } from './SceneInterface';
+import { ContextHolder } from './ContextHolder';
 
 // side-effects
 import '@babylonjs/core/Audio/audioSceneComponent';
@@ -43,7 +45,7 @@ import gunfireSoundURL from './assets/gunfire.mp3?url';
 /**
  * Main in-game scene
  */
-export class MainScene {
+export class MainScene implements SceneInterface {
     private readonly engine: Engine;
     private readonly scene: Scene;
     private readonly camera: Camera;
@@ -53,12 +55,9 @@ export class MainScene {
 
     /**
      * Constructor
-     *
-     * @param engine Main engine
-     * @param sceneOptions Scene option
      */
-    constructor(engine: Engine, sceneOptions?: SceneOptions) {
-        this.engine = engine;
+    constructor(contextHolder: ContextHolder, sceneOptions?: SceneOptions) {
+        this.engine = contextHolder.engine;
 
         const canvas = this.engine.getRenderingCanvas();
         if (!canvas) {
@@ -85,12 +84,19 @@ export class MainScene {
         });
         await houses(this.scene, this.shadowGenerator);
         await loadMobs(this.scene, this.shadowGenerator);
-        window.addEventListener('resize', this.onResize);
         this.scene.activeCamera = this.camera;
         document.addEventListener('click', this.onMouseClick);
         this.engine.runRenderLoop(() => {
             this.scene.render();
         });
+    }
+
+    public async dispose(): Promise<void> {
+        this.scene.dispose();
+    }
+
+    public async render(): Promise<void> {
+        this.scene.render();
     }
 
     /**
@@ -109,8 +115,8 @@ export class MainScene {
         const origin = this.camera.globalPosition.clone();
         const forward = this.camera.getDirection(Vector3.Forward());
         const ray = new Ray(origin, forward, 200);
-        // const rayHelper = new RayHelper(ray)
-        // rayHelper.show(this.scene)
+        // const rayHelper = new RayHelper(ray);
+        // rayHelper.show(this.scene);
 
         if (this.gunfireSound) {
             this.gunfireSound.play();
@@ -122,13 +128,6 @@ export class MainScene {
         if (hit && hit.pickedMesh) {
             hit.pickedMesh.dispose();
         }
-    };
-
-    /**
-     * Execute when viewport has resized
-     */
-    private readonly onResize = (): void => {
-        this.engine.resize();
     };
 }
 

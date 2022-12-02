@@ -5,7 +5,8 @@
 
 import { Engine } from '@babylonjs/core/Engines/engine';
 
-import { MainScene } from './MainScene';
+import { ContextHolder } from './ContextHolder';
+import { SceneNo } from './SceneNo';
 
 import 'pepjs';
 import './style.css';
@@ -26,9 +27,15 @@ async function main(canvas: HTMLCanvasElement): Promise<void> {
         },
         true
     );
-    const mainScene = new MainScene(engine);
-    await mainScene.start();
+    const context = new ContextHolder(engine);
+    await context.switchSceneWithoutDispose(SceneNo.TitleScene);
+    engine.runRenderLoop(() => {
+        context.render();
+    });
 }
 
-const canvas = document.getElementById('app') as HTMLCanvasElement;
+const canvas = document.querySelector<HTMLCanvasElement>('app');
+if (!canvas) {
+    throw new Error(`You should add canvas#app to html.`);
+}
 main(canvas).catch((reason) => console.error(reason));
